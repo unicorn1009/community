@@ -21,12 +21,16 @@ public class GithubProvider {
                 .post(body)
                 .build();
         try (Response response = client.newCall(request).execute()) {
+            System.out.println("我进来了");
             String string = response.body().string();
+            System.out.println("string:"+string);
             String[] split = string.split("&");
             String token_str = split[0];
             String token = token_str.split("=")[1];
+            System.out.println("token:"+token);
             return token;
         } catch (Exception e) {
+            System.out.println("出错了");
             e.printStackTrace();
         }
         return null;
