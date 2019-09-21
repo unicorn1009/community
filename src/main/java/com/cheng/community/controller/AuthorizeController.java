@@ -5,14 +5,14 @@ import com.cheng.community.dto.GithubUser;
 import com.cheng.community.mapper.UserMapper;
 import com.cheng.community.model.User;
 import com.cheng.community.provider.GithubProvider;
-import com.sun.corba.se.impl.resolver.SplitLocalResolverImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -36,7 +36,7 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
-                           HttpServletRequest request){
+                           HttpServletResponse response){
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setCode(code);
         accessTokenDTO.setRedirect_uri(redirectUri);
@@ -48,16 +48,20 @@ public class AuthorizeController {
         GithubUser githubUser = githubProvider.getUser(accessToken);
         if(githubUser != null){
             System.out.println(githubUser.getLogin());
-            //登录成功，写cookie和session
+            //登录成功，将用户信息存入数据库
             User user = new User();
-            user.setToken(UUID.randomUUID().toString());
+                //生成一个token
+            String token = UUID.randomUUID().toString();
+            System.out.println("token:"+ token);
+            user.setToken(token);
             user.setName(githubUser.getLogin());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
-            System.out.println("已插入");
-            request.getSession().setAttribute("user", githubUser);
+            //
+            response.addCookie(new Cookie("token", token));
+            System.out.println("已插入数据库");
             return "redirect:/";
         }else {
             System.out.println("githubUser == null");
