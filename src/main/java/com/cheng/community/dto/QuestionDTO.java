@@ -1,9 +1,10 @@
-package com.cheng.community.model;
+package com.cheng.community.dto;
 
+import com.cheng.community.model.User;
 import lombok.Data;
 
 @Data
-public class Question {
+public class QuestionDTO {
     private Integer id;
     private String title;
     private String tag;
@@ -14,4 +15,5 @@ public class Question {
     private Integer viewCount;
     private Integer likeCount;
     private Integer commentCount;
+    private User user;
 }
