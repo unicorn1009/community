@@ -1,5 +1,6 @@
 package com.cheng.community.mapper;
 
+import com.cheng.community.dto.QuestionDTO;
 import com.cheng.community.model.Question;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -20,4 +21,13 @@ public interface QuestionMapper {
 
     @Select("select count(*) from question")
     Integer count();
+
+    @Select("select * from question where creator = #{userId} limit #{offset}, #{size}")
+    List<Question> listByUserId(@Param(value = "userId") Integer userId, @Param(value = "offset") Integer offset, @Param(value = "size") Integer size);
+
+    @Select("select count(*) from question  where creator = #{userId}")
+    Integer countByUserId(@Param(value = "userId") Integer userId);
+
+    @Select("select * from question where id = #{Id}")
+    Question getById(@Param(value = "Id") Integer id);
 }

@@ -21,3 +21,23 @@ body{
 .page-navigation{
     float: right;
 }
+.profile-section{
+    margin-top: 20px;
+}
+.question-desc{
+    width: 100%;
+    text-align: left;
+    padding: 0;
+    margin-top: 5px;
+    font-family: -apple-system,BlinkMacSystemFont,PingFang-SC-Regular,Hiragino Sans GB,Microsoft Yahei,Arial,sans-serif;
+    font-size: 18px;
+    color: #4c4e4d;
+    font-weight: 400;
+    word-break: normal;
+    word-wrap: break-word;
+    line-height: 32px;
+}
+.question-edit{
+    color: #999;
+    font-size: 14px;
+}
