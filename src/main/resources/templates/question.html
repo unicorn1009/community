@@ -30,7 +30,7 @@
                 <p class="question-desc" th:text="${question.description}"></p>
             </div>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div><a href="#" th:if="${session.user != null && question.creator == session.user.id}" class="question-edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span></a></div>
+            <div><a th:href="@{'/publish/'+${question.id}}" th:if="${session.user != null && question.creator == session.user.id}" class="question-edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span></a></div>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
